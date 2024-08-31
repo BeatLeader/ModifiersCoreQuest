@@ -5,7 +5,7 @@
 
 namespace ModifiersCoreQuest {
     struct CustomModifier : ModifiersCoreQuest::Modifier {
-        UnityW<UnityEngine::Color> Color;
-        UnityW<UnityEngine::Color> MultiplierColor;
+        std::optional<UnityEngine::Color> Color;
+        std::optional<UnityEngine::Color> MultiplierColor;
     };
 }
