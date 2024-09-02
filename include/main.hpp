@@ -30,6 +30,7 @@
 
 #include "include/logger.hpp"
 #include "include/config.hpp"
+#include "include/hooking.hpp"
 
 void DidActivate(HMUI::ViewController* self, bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling);
 

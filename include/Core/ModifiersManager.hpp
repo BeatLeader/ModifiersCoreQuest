@@ -2,7 +2,6 @@
 #include "CustomModifier.hpp"
 #include "Modifier.hpp"
 #include <optional>
-#include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -15,13 +14,22 @@ namespace ModifiersCoreQuest {
     class ModifiersManager {
         // Static class; Static Constructor is called in load()
         ModifiersManager() = delete;
+        friend class ModifierPanelSpawner;
+        friend class ModifiersCorePanel;
 
         public:
-            static auto get_Modifiers();
-            static auto get_PendingModifiers();
-            static auto get_CustomModifiers();
+            // getters
+            inline static auto get_Modifiers(){
+                return std::views::values(AllModifiers);
+            }
+            inline static auto get_PendingModifiers(){
+                return std::views::values(InternalPendingModifiers);
+            }
+            inline static auto get_CustomModifiers(){
+                return std::views::values(InternalCustomModifiers);
+            }
             static std::optional<std::function<void(CustomModifier)>> ModifierAddedEvent;
-            static std::optional<std::function<void(ModifiersCoreQuest::CustomModifier)>> ModifierRemovedEvent;
+            static std::optional<std::function<void(CustomModifier)>> ModifierRemovedEvent;
 
             // API
             static std::optional<Modifier> GetModifierWithId(std::string id);

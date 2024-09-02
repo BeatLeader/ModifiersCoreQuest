@@ -15,6 +15,7 @@ DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifierPanelBase, UnityEngine::MonoBe
         virtual Modifier get_Modifier() = 0;
         std::optional<std::function<void(UnityW<ModifiersCoreQuest::ModifierPanelBase>, bool)>> ModifierStateChangedEvent;
         void SetModifierActive(bool active);
+    protected:
         virtual void AwakeCS();
         virtual void HandleToggleStateChanged(bool state);
 )

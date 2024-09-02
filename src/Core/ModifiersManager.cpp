@@ -12,16 +12,9 @@
 #include "UnityEngine/Resources.hpp"
 
 namespace ModifiersCoreQuest {
-    // getters
-    auto ModifiersManager::get_Modifiers(){
-        return std::views::values(AllModifiers);
-    }
-    auto ModifiersManager::get_PendingModifiers(){
-        return std::views::values(InternalPendingModifiers);
-    }
-    auto ModifiersManager::get_CustomModifiers(){
-        return std::views::values(InternalCustomModifiers);
-    }
+    
+    std::optional<std::function<void(CustomModifier)>> ModifiersManager::ModifierAddedEvent;
+    std::optional<std::function<void(CustomModifier)>> ModifiersManager::ModifierRemovedEvent;
 
     // Public API
     std::optional<ModifiersCoreQuest::Modifier> ModifiersManager::GetModifierWithId(std::string id) {
