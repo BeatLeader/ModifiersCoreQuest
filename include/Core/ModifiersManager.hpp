@@ -16,6 +16,7 @@ namespace ModifiersCoreQuest {
         ModifiersManager() = delete;
         friend class ModifierPanelSpawner;
         friend class ModifiersCorePanel;
+        friend class GameplayModifiersPanelPatch;
 
         public:
             // getters
@@ -59,7 +60,7 @@ namespace ModifiersCoreQuest {
             static void AddModifierInternal(ModifiersCoreQuest::Modifier modifier);
             // Cache
             static void RemoveFromCache(std::string id, std::unordered_map<std::string, std::unordered_set<std::string>> dict);
-            static void AddToCache(std::string id, std::optional<std::vector<std::string>> collection, std::unordered_map<std::string, std::unordered_set<std::string>> dict, bool addSelf = false);
+            static void AddToCache(std::string id, std::optional<std::vector<std::string>> collection, std::unordered_map<std::string, std::unordered_set<std::string>>& dict, bool addSelf = false);
             static bool EnsureDependenciesExist(ModifiersCoreQuest::Modifier modifier);
 
             // Base Game (c++ doesnt have partial classes ._.)

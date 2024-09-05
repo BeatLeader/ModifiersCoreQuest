@@ -1,5 +1,7 @@
 #include "include/UI/Modifier/ModifierPanelBase.hpp"
+#include "Core/Modifier.hpp"
 #include "custom-types/shared/delegate.hpp"
+#include "logger.hpp"
 #include <functional>
 
 DEFINE_TYPE(ModifiersCoreQuest, ModifierPanelBase);

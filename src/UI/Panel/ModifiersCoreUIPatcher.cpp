@@ -11,6 +11,7 @@
 #include "UnityEngine/Vector2.hpp"
 #include "UnityEngine/Vector3.hpp"
 #include "HMUI/VerticalScrollIndicator.hpp"
+#include "logger.hpp"
 
 DEFINE_TYPE(ModifiersCoreQuest, ModifiersCoreUIPatcher);
 

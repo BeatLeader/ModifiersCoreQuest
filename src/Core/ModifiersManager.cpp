@@ -10,6 +10,9 @@
 #include <vector>
 #include "include/Utils/ModifierUtils.hpp"
 #include "UnityEngine/Resources.hpp"
+#include "Patches/PlayerDataModelPatch.hpp"
+#include "GlobalNamespace/PlayerData.hpp"
+#include "logger.hpp"
 
 namespace ModifiersCoreQuest {
     
@@ -35,20 +38,20 @@ namespace ModifiersCoreQuest {
             return getModConfig().ModifierStates.GetValue().contains(id);
         }
         // if base game
-        // TODO PlayerDataModelPatch
-        return false;
+        auto playerData = PlayerDataModelPatch::get_PlayerData();
+        if(!playerData.has_value()) {
+            throw std::domain_error("Cannot get a base game modifier state until player data is loaded");
+        }
+        return ModifierUtils::GetGameplayModifierState(playerData.value()->gameplayModifiers, id);
     }
 
     void ModifiersManager::SetModifierState(std::string id, bool state) {
         if(!HasModifierWithId(id)){
             throw std::invalid_argument("A modifier with such identifier "+id+" does not exist");
         }
-        if(state){
-            getModConfig().ModifierStates.GetValue().insert(id);
-        }
-        else{
-            getModConfig().ModifierStates.GetValue().erase(id);
-        }
+        auto map = getModConfig().ModifierStates.GetValue();
+        map.insert_or_assign(id, state);
+        getModConfig().ModifierStates.SetValue(map);
     }
 
     void ModifiersManager::AddModifier(CustomModifier modifier){
@@ -80,13 +83,13 @@ namespace ModifiersCoreQuest {
             throw std::invalid_argument("A modifier with the same key is already added");
         }
         if (modifier.Id.length() < 2 || modifier.Id.length() > 3) {
-            throw new std::invalid_argument("A modifier key should be 2 or 3 characters long (example: NF)");
+            throw std::invalid_argument("A modifier key should be 2 or 3 characters long (example: NF)");
         }
         if (checkDependencies && !EnsureDependenciesExist(modifier)) {
-            InternalPendingModifiers.insert_or_assign(modifier.Id, modifier);
+            ModifiersManager::InternalPendingModifiers.insert_or_assign(modifier.Id, modifier);
             return;
         }
-        InternalCustomModifiers.insert_or_assign(modifier.Id, modifier);
+        ModifiersManager::InternalCustomModifiers.insert_or_assign(modifier.Id, modifier);
         AddModifierInternal(modifier);
         if(ModifierAddedEvent.has_value()){
             ModifierAddedEvent.value()(modifier);
@@ -94,7 +97,7 @@ namespace ModifiersCoreQuest {
     }
 
     void ModifiersManager::AddModifierInternal(ModifiersCoreQuest::Modifier modifier){
-        AllModifiers.insert_or_assign(modifier.Id, modifier);
+        ModifiersManager::AllModifiers.insert_or_assign(modifier.Id, modifier);
         //caching categories
         AddToCache(modifier.Id, modifier.Categories, CategorizedModifiers);
         AddToCache(modifier.Id, modifier.MutuallyExclusiveCategories, ExclusiveCategories);
@@ -124,24 +127,24 @@ namespace ModifiersCoreQuest {
         }
     }
 
-    void ModifiersManager::AddToCache(std::string id, std::optional<std::vector<std::string>> collection, std::unordered_map<std::string, std::unordered_set<std::string>> dict, bool addSelf){
+    void ModifiersManager::AddToCache(std::string id, std::optional<std::vector<std::string>> collection, std::unordered_map<std::string, std::unordered_set<std::string>>& dict, bool addSelf){
         if(!collection.has_value()){
             return;
         }
         if(addSelf){
-            auto set = dict.emplace(id, std::unordered_set<std::string>()).first->second;
+            auto& set = dict.emplace(id, std::unordered_set<std::string>()).first->second;
             for(auto item : collection.value()){
                 set.emplace(item);
             }
         }
         for(auto item : collection.value()){
-            auto set = dict.emplace(item, std::unordered_set<std::string>()).first->second;
+            auto& set = dict.emplace(item, std::unordered_set<std::string>()).first->second;
             set.emplace(id);
         }
     }
 
     bool ModifiersManager::EnsureDependenciesExist(ModifiersCoreQuest::Modifier modifier){
-        if(!modifier.RequiresModifiers.has_value() || modifier.RequiresModifiers.value().empty()){
+        if(!modifier.RequiresModifiers.has_value()){
             return true;
         }
         for(auto require : modifier.RequiredByModifiers.value()){
@@ -179,7 +182,7 @@ namespace ModifiersCoreQuest {
                 MakeIdsArray(modifier->get_requires()),
                 MakeIdsArray(modifier->get_requiredBy())
             };
-            GameplayModifierParams.insert_or_assign(id, modifier);
+            ModifiersManager::GameplayModifierParams.insert_or_assign(id, modifier);
             AddModifierInternal(mod);
         }
     }

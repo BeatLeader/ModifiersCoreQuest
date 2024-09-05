@@ -8,8 +8,8 @@
 #include <optional>
 
 DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifierPanelBase, UnityEngine::MonoBehaviour, 
-    DECLARE_INSTANCE_METHOD(void, Awake);
     DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, _toggle);
+    DECLARE_INSTANCE_METHOD(void, Awake);
 
     public:
         virtual Modifier get_Modifier() = 0;

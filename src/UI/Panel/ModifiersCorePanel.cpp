@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include "custom-types/shared/delegate.hpp"
 #include "GlobalNamespace/GameplayModifiersModelSO.hpp"
+#include "logger.hpp"
 
 DEFINE_TYPE(ModifiersCoreQuest, ModifiersCorePanel);
 

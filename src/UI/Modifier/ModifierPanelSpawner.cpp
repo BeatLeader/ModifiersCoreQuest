@@ -50,7 +50,7 @@ namespace ModifiersCoreQuest {
             panel = go->AddComponent<ModifiersCoreQuest::CustomModifierPanel*>();
         }
         panel->SetModifier(modifier);
-        _spawnedPanels.insert_or_assign(modifier.Id, panel);
+        this->_spawnedPanels.insert_or_assign(modifier.Id, panel);
         return panel;
     }
 

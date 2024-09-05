@@ -1,6 +1,7 @@
 #include "main.hpp"
 
-#include "include/Core//ModifiersManager.hpp"
+#include "include/Core/ModifiersManager.hpp"
+#include "custom-types/shared/register.hpp"
 
 // Called at the early stages of game loading
 extern "C" __attribute__((visibility("default"))) void setup(CModInfo* info)
@@ -18,13 +19,7 @@ extern "C" __attribute__((visibility("default"))) void setup(CModInfo* info)
 extern "C" __attribute__((visibility("default"))) void late_load()
 {
     // Init things
-    getModConfig().Init(modInfo);
-
-    // Install Hooks
-    auto logger = Paper::ConstLoggerContext("ModifiersCoreQuest");
-    getLogger().info("Installing hooks...");
-    // INSTALL_HOOK(logger, GameplayCoreInstallerInstallBindingsHook);
-    getLogger().info("Installed all hooks!");
-
-    ModifiersCoreQuest::ModifiersManager::LoadBaseGameModifiers();
+    il2cpp_functions::Init();
+    custom_types::Register::AutoRegister();
+    ModifiersCoreQuest::Hooking::InstallHooks();
 }

@@ -14,8 +14,8 @@ DECLARE_CLASS_CUSTOM(ModifiersCoreQuest, CustomModifierPanel, ModifierPanelBase,
         Modifier get_Modifier();
         void SetModifier(CustomModifier customModifier);
     protected:
-        void AwakeCS();
         void HandleToggleStateChanged(bool state);
+        void AwakeCS();
     private:
         CustomModifier _modifier;
 )
