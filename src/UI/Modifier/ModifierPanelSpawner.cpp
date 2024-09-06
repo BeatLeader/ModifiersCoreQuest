@@ -30,8 +30,8 @@ namespace ModifiersCoreQuest {
             //
             ModifierPanel* panel = new ModifiersCoreQuest::ModifierPanel(toggle->gameObject);
             panel->SetModifier(modifier);
-            this->_baseGamePanels.emplace(id, panel);
-            this->_spawnedPanels.emplace(id, panel);
+            this->_baseGamePanels.insert_or_assign(id, panel);
+            this->_spawnedPanels.insert_or_assign(id, panel);
         }
     }
 
@@ -51,7 +51,7 @@ namespace ModifiersCoreQuest {
             panel = new ModifiersCoreQuest::CustomModifierPanel(go);
         }
         panel->SetModifier(modifier);
-        this->_spawnedPanels.emplace(modifier.Id, panel);
+        this->_spawnedPanels.insert_or_assign(modifier.Id, panel);
         return panel;
     }
 
