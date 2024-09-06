@@ -6,16 +6,14 @@
 #include "UnityEngine/GameObject.hpp"
 #include "Core/ModifiersManager.hpp"
 
-DEFINE_TYPE(ModifiersCoreQuest, CustomModifierPanel);
-
 namespace ModifiersCoreQuest {
     Modifier CustomModifierPanel::get_Modifier() {
         return this->_modifier;
     }
 
-    void CustomModifierPanel::AwakeCS() {
-        ModifierPanelBase::AwakeCS();
-        this->name = "CustomModifier";
+    void CustomModifierPanel::Awake() {
+        ModifierPanelBase::Awake();
+        this->gameObject->name = "CustomModifier";
         this->_modifierToggle = this->gameObject->GetComponent<GlobalNamespace::GameplayModifierToggle*>();
         this->_modifierToggle->enabled = false;
         this->_visualsController = this->gameObject->AddComponent<ModifiersCoreQuest::CustomModifierVisualsController*>();

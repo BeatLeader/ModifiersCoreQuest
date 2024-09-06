@@ -2,20 +2,28 @@
 
 #include "Core/Modifier.hpp"
 #include "custom-types/shared/macros.hpp"
-#include "UnityEngine/MonoBehaviour.hpp"
 #include "UnityEngine/UI/Toggle.hpp"
+#include "UnityEngine/GameObject.hpp"
 #include <functional>
 #include <optional>
 
-DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifierPanelBase, UnityEngine::MonoBehaviour, 
-    DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, _toggle);
-    DECLARE_INSTANCE_METHOD(void, Awake);
+namespace ModifiersCoreQuest {
+    class ModifierPanelBase {
 
-    public:
-        virtual Modifier get_Modifier() = 0;
-        std::optional<std::function<void(UnityW<ModifiersCoreQuest::ModifierPanelBase>, bool)>> ModifierStateChangedEvent;
-        void SetModifierActive(bool active);
-    protected:
-        virtual void AwakeCS();
-        virtual void HandleToggleStateChanged(bool state);
-)
+        public:
+            ModifierPanelBase(UnityW<UnityEngine::GameObject> gameObjectParam) {
+                this->gameObject=gameObjectParam;
+                this->Awake();
+            }
+
+            virtual Modifier get_Modifier() = 0;
+            std::optional<std::function<void(ModifiersCoreQuest::ModifierPanelBase&, bool)>> ModifierStateChangedEvent;
+            SafePtrUnity<UnityEngine::GameObject> gameObject;
+            void SetModifierActive(bool active);
+        protected:
+            virtual void Awake();
+            virtual void HandleToggleStateChanged(bool state);
+        private:
+            SafePtrUnity<UnityEngine::UI::Toggle> _toggle;
+    };
+}

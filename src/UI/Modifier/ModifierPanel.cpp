@@ -1,9 +1,5 @@
 #include "UI/Modifier/ModifierPanel.hpp"
 #include "Core/Modifier.hpp"
-#include "UI/Modifier/ModifierPanelBase.hpp"
-#include "logger.hpp"
-
-DEFINE_TYPE(ModifiersCoreQuest, ModifierPanel);
 
 namespace ModifiersCoreQuest {
     Modifier ModifierPanel::get_Modifier(){

@@ -6,16 +6,19 @@
 #include "UI/Modifier/CustomModifierVisualsController.hpp"
 #include "custom-types/shared/macros.hpp"
 
-DECLARE_CLASS_CUSTOM(ModifiersCoreQuest, CustomModifierPanel, ModifierPanelBase,
-    DECLARE_INSTANCE_FIELD_PRIVATE(ModifiersCoreQuest::CustomModifierVisualsController*, _visualsController);
-    DECLARE_INSTANCE_FIELD_PRIVATE(GlobalNamespace::GameplayModifierToggle*, _modifierToggle);
+namespace ModifiersCoreQuest {
+    class CustomModifierPanel : public ModifierPanelBase {
+        using ModifierPanelBase::ModifierPanelBase;
 
-    public:
-        Modifier get_Modifier();
-        void SetModifier(CustomModifier customModifier);
-    protected:
-        void HandleToggleStateChanged(bool state);
-        void AwakeCS();
-    private:
-        CustomModifier _modifier;
-)
+        public:
+            Modifier get_Modifier();
+            void SetModifier(CustomModifier customModifier);
+        protected:
+            void HandleToggleStateChanged(bool state);
+            void Awake();
+        private:
+            CustomModifier _modifier;
+            SafePtrUnity<ModifiersCoreQuest::CustomModifierVisualsController> _visualsController;
+            SafePtrUnity<GlobalNamespace::GameplayModifierToggle> _modifierToggle;
+    };
+}

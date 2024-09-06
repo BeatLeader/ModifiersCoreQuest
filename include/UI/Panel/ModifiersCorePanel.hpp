@@ -28,10 +28,10 @@ DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifiersCorePanel, UnityEngine::MonoB
         void RefreshModifiersOrder();
         void SetModifiersActive(auto modifiers, bool state, std::optional<std::string> except = {});
         void SetCategoriesActive(std::optional<std::vector<std::string>> categories, std::unordered_map<std::string, std::unordered_set<std::string>> cache, bool state, std::optional<std::string> except = {});
-        void HandleModifierSpawnedInternal(UnityW<ModifiersCoreQuest::ModifierPanelBase> panel);
+        void HandleModifierSpawnedInternal(ModifiersCoreQuest::ModifierPanelBase& panel);
         void HandleModifierAddedInternal(CustomModifier modifier);
         void HandleModifierAdded(CustomModifier modifier);
         void HandleModifierRemoved(CustomModifier modifier);
-        void HandleModifierStateChanged(UnityW<ModifiersCoreQuest::ModifierPanelBase> panel, bool state);
+        void HandleModifierStateChanged(ModifiersCoreQuest::ModifierPanelBase& panel, bool state);
 
 )

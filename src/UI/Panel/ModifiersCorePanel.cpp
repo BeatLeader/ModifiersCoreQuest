@@ -28,8 +28,8 @@ namespace ModifiersCoreQuest {
 
     void ModifiersCorePanel::Start() {
         //handling already spawned
-        for(auto panel : this->_spawner->get_Panels()){
-            this->HandleModifierSpawnedInternal(panel);
+        for(auto& panel : this->_spawner->get_Panels()){
+            this->HandleModifierSpawnedInternal(*panel);
         }
         ModifiersCoreQuest::ModifiersManager::ModifierAddedEvent = (std::function<void(CustomModifier)>)[this](CustomModifier modifier) { this->HandleModifierAdded(modifier); };
         ModifiersCoreQuest::ModifiersManager::ModifierRemovedEvent = (std::function<void(CustomModifier)>)[this](CustomModifier modifier) { this->HandleModifierRemoved(modifier); };
@@ -46,8 +46,8 @@ namespace ModifiersCoreQuest {
     void ModifiersCorePanel::RefreshModifiersOrder() {
         int index = 0;
         for (auto modifier : ModifiersCoreQuest::ModifiersManager::get_Modifiers()) {
-            auto toggle = this->_spawner->GetSpawnedPanel(modifier.Id);
-            toggle->transform->SetSiblingIndex(index);
+            auto& toggle = this->_spawner->GetSpawnedPanel(modifier.Id);
+            toggle.gameObject->transform->SetSiblingIndex(index);
             index++;
         }
     }
@@ -60,8 +60,8 @@ namespace ModifiersCoreQuest {
             if(except.has_value() && modifier == except) {
                 continue;
             }
-            auto panel = this->_spawner->GetSpawnedPanel(modifier);
-            panel->SetModifierActive(state);
+            auto& panel = this->_spawner->GetSpawnedPanel(modifier);
+            panel.SetModifierActive(state);
         }
     }
 
@@ -105,13 +105,13 @@ namespace ModifiersCoreQuest {
         this->get_Panel()->RefreshTotalMultiplierAndRankUI();
     }
 
-    void ModifiersCorePanel::HandleModifierSpawnedInternal(UnityW<ModifierPanelBase> panel) {
-        panel->ModifierStateChangedEvent =(std::function<void(UnityW<ModifierPanelBase>, bool)>)[this](UnityW<ModifierPanelBase> panel, bool state) { return this->HandleModifierStateChanged(panel, state); };
+    void ModifiersCorePanel::HandleModifierSpawnedInternal(ModifierPanelBase& panel) {
+        panel.ModifierStateChangedEvent = (std::function<void(ModifierPanelBase&, bool)>)[this](ModifierPanelBase& panel, bool state) { return this->HandleModifierStateChanged(panel, state); };
     }
 
     void ModifiersCorePanel::HandleModifierAddedInternal(CustomModifier modifier){
         auto panel = this->_spawner->SpawnPanel(modifier);
-        this->HandleModifierSpawnedInternal(panel);
+        this->HandleModifierSpawnedInternal(*panel);
     }
 
     void ModifiersCorePanel::HandleModifierAdded(CustomModifier modifier){
@@ -120,13 +120,13 @@ namespace ModifiersCoreQuest {
     }
 
     void ModifiersCorePanel::HandleModifierRemoved(CustomModifier modifier) {
-        auto panel = this->_spawner->GetSpawnedPanel(modifier.Id);
-        panel->ModifierStateChangedEvent = {};
+        auto& panel = this->_spawner->GetSpawnedPanel(modifier.Id);
+        panel.ModifierStateChangedEvent = {};
         this->_spawner->DespawnPanel(modifier.Id);
         this->RefreshModifiersOrder();
     }
 
-    void ModifiersCorePanel::HandleModifierStateChanged(UnityW<ModifierPanelBase> panel, bool state) {
-        this->SetModifierActive(panel->get_Modifier(), state);
+    void ModifiersCorePanel::HandleModifierStateChanged(ModifierPanelBase& panel, bool state) {
+        this->SetModifierActive(panel.get_Modifier(), state);
     }
 }

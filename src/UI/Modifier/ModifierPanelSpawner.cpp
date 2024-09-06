@@ -1,6 +1,7 @@
 #include "UI/Modifier/ModifierPanelSpawner.hpp"
 
 #include "Core/CustomModifier.hpp"
+#include "UI/Modifier/CustomModifierPanel.hpp"
 #include "UI/Modifier/ModifierPanelBase.hpp"
 #include "Utils/ModifierUtils.hpp"
 #include "Core/ModifiersManager.hpp"
@@ -27,18 +28,19 @@ namespace ModifiersCoreQuest {
             auto id = ModifiersCoreQuest::ModifierUtils::GetBaseModifierIdBySerializedName(key);
             auto modifier = ModifiersManager::AllModifiers[id];
             //
-            auto panel = toggle->gameObject->AddComponent<ModifiersCoreQuest::ModifierPanel*>();
+            auto panel = new ModifiersCoreQuest::ModifierPanel(toggle->gameObject.ptr());
             panel->SetModifier(modifier);
             this->_baseGamePanels.emplace(id, panel);
             this->_spawnedPanels.emplace(id, panel);
         }
     }
 
-    UnityW<ModifiersCoreQuest::ModifierPanelBase> ModifierPanelSpawner::GetSpawnedPanel(std::string id) {
-        return this->_spawnedPanels[id];
+    ModifiersCoreQuest::ModifierPanelBase& ModifierPanelSpawner::GetSpawnedPanel(std::string id) {
+        // TODO does this work correctly?
+        return *this->_spawnedPanels[id];
     }
 
-    UnityW<ModifiersCoreQuest::ModifierPanelBase> ModifierPanelSpawner::SpawnPanel(CustomModifier modifier) {
+    ModifiersCoreQuest::ModifierPanelBase* ModifierPanelSpawner::SpawnPanel(CustomModifier modifier) {
         ModifiersCoreQuest::CustomModifierPanel* panel;
         if (!_pooledPanels.empty()) {
             panel = _pooledPanels.top();
@@ -47,7 +49,7 @@ namespace ModifiersCoreQuest {
         }
         else {
             auto go = UnityEngine::Object::Instantiate(this->_modifierPrefab, this->get_ModifiersSection(), false);
-            panel = go->AddComponent<ModifiersCoreQuest::CustomModifierPanel*>();
+            panel = new ModifiersCoreQuest::CustomModifierPanel(go);
         }
         panel->SetModifier(modifier);
         this->_spawnedPanels.insert_or_assign(modifier.Id, panel);
@@ -59,7 +61,7 @@ namespace ModifiersCoreQuest {
             return;
         }
 
-        auto panel = this->_spawnedPanels[id].cast<CustomModifierPanel>();
+        auto* panel = dynamic_cast<ModifiersCoreQuest::CustomModifierPanel*>(this->_spawnedPanels[id]);
         panel->gameObject->SetActive(true);
         this->_spawnedPanels.erase(id);
         this->_pooledPanels.push(panel);
