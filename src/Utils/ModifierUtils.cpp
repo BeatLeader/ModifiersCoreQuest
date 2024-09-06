@@ -1,7 +1,7 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
-#include "include/Utils/ModifierUtils.hpp"
+#include "Utils/ModifierUtils.hpp"
 
 namespace ModifiersCoreQuest {
     bool ModifierUtils::TryGetBaseModifierIdBySerializedName(std::string name, std::string& id){

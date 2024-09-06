@@ -9,6 +9,7 @@
 #include "UnityEngine/GameObject.hpp"
 #include "TMPro/TextMeshPro.hpp"
 #include "logger.hpp"
+#include <string>
 #include <vector>
 
 namespace ModifiersCoreQuest {
@@ -26,7 +27,7 @@ namespace ModifiersCoreQuest {
         auto totalMultiplier = GameplayModifiersPanelPatch::GetTotalMultiplier(self->_gameplayModifiersModel, modifiers, 1);
         auto color = totalMultiplier >= 1 ? self->_positiveColor : self->_negativeColor;
         //multiplier
-        self->_totalMultiplierValueText->text = fmt::format("{:.2f}%%", totalMultiplier * 100);
+        self->_totalMultiplierValueText->text = std::to_string((int)(totalMultiplier * 100)) + "%";
         self->_totalMultiplierValueText->color = color;
         // rank
         auto maxRank = GameplayModifiersPanelPatch::MaxRankForModifiers(self->_gameplayModifiersModel, modifiers, 1);

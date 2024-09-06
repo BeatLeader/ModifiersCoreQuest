@@ -1,7 +1,7 @@
 #include <functional>
 #include <string>
 #include <unordered_map>
-#include "include/Core/ModifierCategories.hpp"
+#include "Core/ModifierCategories.hpp"
 
 #include "GlobalNamespace/GameplayModifiers.hpp"
 #include "UnityEngine/Object.hpp"

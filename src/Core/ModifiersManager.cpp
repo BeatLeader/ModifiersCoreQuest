@@ -1,4 +1,4 @@
-#include "include/Core/ModifiersManager.hpp"
+#include "Core/ModifiersManager.hpp"
 
 #include "config.hpp"
 #include <ranges>
@@ -8,11 +8,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include "include/Utils/ModifierUtils.hpp"
+#include "Utils/ModifierUtils.hpp"
 #include "UnityEngine/Resources.hpp"
 #include "Patches/PlayerDataModelPatch.hpp"
 #include "GlobalNamespace/PlayerData.hpp"
-#include "logger.hpp"
 
 namespace ModifiersCoreQuest {
     

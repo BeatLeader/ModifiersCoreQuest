@@ -11,6 +11,8 @@
 #include <unordered_map>
 
 DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifierPanelSpawner, UnityEngine::MonoBehaviour,
+    DECLARE_DEFAULT_CTOR();
+    DECLARE_SIMPLE_DTOR(); 
     DECLARE_INSTANCE_FIELD_PRIVATE(ModifiersCoreQuest::ModifiersCoreUIPatcher*, _patcher);
     DECLARE_INSTANCE_FIELD_PRIVATE(UnityEngine::GameObject*, _modifierPrefab);
 

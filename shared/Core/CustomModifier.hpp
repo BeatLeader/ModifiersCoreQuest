@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Modifier.hpp"
+#include "Core/Modifier.hpp"
 #include "UnityEngine/Color.hpp"
 
 namespace ModifiersCoreQuest {

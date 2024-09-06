@@ -9,6 +9,8 @@
 #include "UnityEngine/Color.hpp"
 
 DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, CustomModifierVisualsController, UnityEngine::MonoBehaviour,
+    DECLARE_DEFAULT_CTOR();
+    DECLARE_SIMPLE_DTOR(); 
     DECLARE_INSTANCE_FIELD(HMUI::ImageView*, _background);
     DECLARE_INSTANCE_FIELD(HMUI::ToggleWithCallbacks*, _toggle);
     DECLARE_INSTANCE_FIELD(GlobalNamespace::GameplayModifierToggle*, _modifierToggle);

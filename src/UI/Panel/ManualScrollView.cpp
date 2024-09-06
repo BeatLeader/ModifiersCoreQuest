@@ -7,10 +7,6 @@
 DEFINE_TYPE(ModifiersCoreQuest, ManualScrollView);
 
 namespace ModifiersCoreQuest {
-    void ManualScrollView::Start() {
-        // TODO nötig?
-        this->_platformHelper = UnityEngine::Resources::FindObjectsOfTypeAll<GlobalNamespace::IVRPlatformHelper*>()->First();
-    }
 
     void ManualScrollView::ManualAwake(){
         ManualScrollView::_suppress = false;

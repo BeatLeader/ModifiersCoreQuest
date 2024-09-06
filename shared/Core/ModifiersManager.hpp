@@ -1,6 +1,6 @@
 #include "functional"
-#include "CustomModifier.hpp"
-#include "Modifier.hpp"
+#include "Core/CustomModifier.hpp"
+#include "Core/Modifier.hpp"
 #include <optional>
 #include <string>
 #include <unordered_map>

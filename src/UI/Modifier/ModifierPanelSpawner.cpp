@@ -28,7 +28,7 @@ namespace ModifiersCoreQuest {
             auto id = ModifiersCoreQuest::ModifierUtils::GetBaseModifierIdBySerializedName(key);
             auto modifier = ModifiersManager::AllModifiers[id];
             //
-            auto panel = new ModifiersCoreQuest::ModifierPanel(toggle->gameObject.ptr());
+            ModifierPanel* panel = new ModifiersCoreQuest::ModifierPanel(toggle->gameObject);
             panel->SetModifier(modifier);
             this->_baseGamePanels.emplace(id, panel);
             this->_spawnedPanels.emplace(id, panel);
@@ -36,7 +36,6 @@ namespace ModifiersCoreQuest {
     }
 
     ModifiersCoreQuest::ModifierPanelBase& ModifierPanelSpawner::GetSpawnedPanel(std::string id) {
-        // TODO does this work correctly?
         return *this->_spawnedPanels[id];
     }
 
@@ -52,7 +51,7 @@ namespace ModifiersCoreQuest {
             panel = new ModifiersCoreQuest::CustomModifierPanel(go);
         }
         panel->SetModifier(modifier);
-        this->_spawnedPanels.insert_or_assign(modifier.Id, panel);
+        this->_spawnedPanels.emplace(modifier.Id, panel);
         return panel;
     }
 

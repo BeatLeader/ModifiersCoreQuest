@@ -13,6 +13,8 @@
 #include <unordered_set>
 
 DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifiersCorePanel, UnityEngine::MonoBehaviour,
+    DECLARE_DEFAULT_CTOR();
+    DECLARE_SIMPLE_DTOR(); 
     DECLARE_INSTANCE_FIELD_PRIVATE(ModifiersCoreQuest::ModifiersCoreUIPatcher*, _patcher);
     DECLARE_INSTANCE_FIELD_PRIVATE(ModifiersCoreQuest::ModifierPanelSpawner*, _spawner);
     DECLARE_INSTANCE_FIELD_PRIVATE(UnityEngine::UI::GridLayoutGroup*, _modifiersSectionGroup);

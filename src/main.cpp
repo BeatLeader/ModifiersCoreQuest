@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-#include "include/Core/ModifiersManager.hpp"
+#include "Core/ModifiersManager.hpp"
 #include "custom-types/shared/register.hpp"
 
 // Called at the early stages of game loading

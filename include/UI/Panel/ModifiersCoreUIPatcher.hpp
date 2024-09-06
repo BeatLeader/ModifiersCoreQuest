@@ -8,6 +8,8 @@
 #include "UI/Panel/ManualScrollView.hpp"
 
 DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifiersCoreUIPatcher, UnityEngine::MonoBehaviour,
+    DECLARE_DEFAULT_CTOR();
+    DECLARE_SIMPLE_DTOR(); 
     DECLARE_INSTANCE_FIELD(GlobalNamespace::GameplayModifiersPanelController*, Panel);
     DECLARE_INSTANCE_FIELD(UnityEngine::RectTransform*, ModifiersSection);
     DECLARE_INSTANCE_FIELD(ModifiersCoreQuest::ManualScrollView*, _scrollView);
