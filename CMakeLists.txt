@@ -27,7 +27,7 @@ set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_link_options(-Wl,--exclude-libs,ALL)
 
 # compile options used
-add_compile_options(-frtti -fexceptions -fvisibility=hidden)
+add_compile_options(-frtti -fexceptions)
 add_compile_options(-O3)
 # compile definitions used
 add_compile_definitions(VERSION=\"${MOD_VERSION}\")

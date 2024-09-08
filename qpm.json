@@ -5,7 +5,7 @@
   "info": {
     "name": "ModifiersCoreQuest",
     "id": "ModifiersCoreQuest",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "url": null,
     "additionalData": {
       "overrideSoName": "libModifiersCoreQuest.so"

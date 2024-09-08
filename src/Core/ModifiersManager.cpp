@@ -12,16 +12,33 @@
 #include "UnityEngine/Resources.hpp"
 #include "Patches/PlayerDataModelPatch.hpp"
 #include "GlobalNamespace/PlayerData.hpp"
+#include "logger.hpp"
 
 namespace ModifiersCoreQuest {
-    
-    std::optional<std::function<void(CustomModifier)>> ModifiersManager::ModifierAddedEvent;
-    std::optional<std::function<void(CustomModifier)>> ModifiersManager::ModifierRemovedEvent;
 
-    // Public API
-    std::optional<ModifiersCoreQuest::Modifier> ModifiersManager::GetModifierWithId(std::string id) {
-        auto findIterator = AllModifiers.find(id);
-        return findIterator == AllModifiers.end() ? std::optional<ModifiersCoreQuest::Modifier>() : findIterator->second;
+std::unordered_map<std::string, ModifiersCoreQuest::CustomModifier> ModifiersManager::InternalCustomModifiers = {};
+std::unordered_map<std::string, ModifiersCoreQuest::CustomModifier> ModifiersManager::InternalPendingModifiers = {};
+std::unordered_map<std::string, ModifiersCoreQuest::Modifier> ModifiersManager::AllModifiers = {};
+
+std::unordered_map<std::string, std::unordered_set<std::string>> ModifiersManager::DependentModifiers = {};
+std::unordered_map<std::string, std::unordered_set<std::string>> ModifiersManager::ExclusiveModifiers = {};
+std::unordered_map<std::string, std::unordered_set<std::string>> ModifiersManager::ExclusiveCategories = {};
+std::unordered_map<std::string, std::unordered_set<std::string>> ModifiersManager::CategorizedModifiers = {};
+
+std::vector<std::string> ModifiersManager::buffer = {};
+
+std::optional<std::function<void(CustomModifier)>>
+    ModifiersManager::ModifierAddedEvent;
+std::optional<std::function<void(CustomModifier)>>
+    ModifiersManager::ModifierRemovedEvent;
+
+// Public API
+std::optional<ModifiersCoreQuest::Modifier>
+ModifiersManager::GetModifierWithId(std::string id) {
+  auto findIterator = AllModifiers.find(id);
+  return findIterator == AllModifiers.end()
+             ? std::optional<ModifiersCoreQuest::Modifier>()
+             : findIterator->second;
     }
 
     bool ModifiersManager::HasModifierWithId(std::string id) {
@@ -193,4 +210,4 @@ namespace ModifiersCoreQuest {
         }
         return ret;
     }
-}
+    } // namespace ModifiersCoreQuest
