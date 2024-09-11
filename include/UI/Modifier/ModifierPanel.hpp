@@ -4,8 +4,10 @@
 
 namespace ModifiersCoreQuest {
     class ModifierPanel : public ModifierPanelBase {
-        using ModifierPanelBase::ModifierPanelBase;
         public:
+            ModifierPanel(UnityW<UnityEngine::GameObject> gameObjectParam) : ModifierPanelBase(gameObjectParam) {
+                this->Awake();
+            }
             Modifier get_Modifier();
             void SetModifier(Modifier modifier);
         private:

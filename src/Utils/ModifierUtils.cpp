@@ -2,8 +2,36 @@
 #include <stdexcept>
 #include <string>
 #include "Utils/ModifierUtils.hpp"
+#include "logger.hpp"
 
 namespace ModifiersCoreQuest {
+
+    std::unordered_map<std::string, std::string> ModifierUtils::modifierCategories = {                
+        { "IF", ModifierCategories::Energy },
+        { "BE", ModifierCategories::Energy },
+        { "NB", ModifierCategories::Beatmap },
+        { "NO", ModifierCategories::Beatmap },
+        { "NA", ModifierCategories::Beatmap },
+        { "GN", ModifierCategories::Visuals },
+        { "DA", ModifierCategories::Visuals },
+        { "SC", ModifierCategories::Beatmap },
+        { "PM", ModifierCategories::Scoring },
+        { "SA", ModifierCategories::Scoring },
+        { "SS", ModifierCategories::Speed },
+        { "FS", ModifierCategories::Speed },
+        { "SF", ModifierCategories::Speed }
+    };
+
+    std::unordered_map<std::string, std::string> ModifierUtils::modifierExclusiveCategory = {                
+        { "IF", ModifierCategories::Energy },
+        { "BE", ModifierCategories::Energy },
+        { "GN", ModifierCategories::Visuals },
+        { "DA", ModifierCategories::Visuals },
+        { "SS", ModifierCategories::Speed },
+        { "FS", ModifierCategories::Speed },
+        { "SF", ModifierCategories::Speed }
+    };
+
     bool ModifierUtils::TryGetBaseModifierIdBySerializedName(std::string name, std::string& id){
         auto iter = defaultModifierIds.find(name);
         id = iter == defaultModifierIds.end() ? NULL : iter->second;

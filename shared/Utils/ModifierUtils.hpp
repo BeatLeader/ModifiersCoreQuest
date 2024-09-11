@@ -21,7 +21,7 @@ namespace ModifiersCoreQuest {
             static bool IsValidBaseGameModifier(std::string id);
             static bool GetGameplayModifierState(UnityW<GlobalNamespace::GameplayModifiers> modifiers, std::string id);
         private:
-            inline static std::unordered_map<std::string, std::string> defaultModifierIds = {
+            inline const static std::unordered_map<std::string, std::string> defaultModifierIds = {
                 { "MODIFIER_ONE_LIFE", "IF" },
                 { "MODIFIER_FOUR_LIVES", "BE" },
                 { "MODIFIER_NO_BOMBS", "NB" },
@@ -40,33 +40,11 @@ namespace ModifiersCoreQuest {
                 { "MODIFIER_NO_FAIL_ON_0_ENERGY", "NF" }
             };
 
-            inline static std::unordered_map<std::string, std::string> modifierCategories = {
-                { "IF", ModifierCategories::Energy },
-                { "BE", ModifierCategories::Energy },
-                { "NB", ModifierCategories::Beatmap },
-                { "NO", ModifierCategories::Beatmap },
-                { "NA", ModifierCategories::Beatmap },
-                { "GN", ModifierCategories::Visuals },
-                { "DA", ModifierCategories::Visuals },
-                { "SC", ModifierCategories::Beatmap },
-                { "PM", ModifierCategories::Scoring },
-                { "SA", ModifierCategories::Scoring },
-                { "SS", ModifierCategories::Speed },
-                { "FS", ModifierCategories::Speed },
-                { "SF", ModifierCategories::Speed }
-            };
+            static std::unordered_map<std::string, std::string> modifierCategories;
 
-            inline static std::unordered_map<std::string, std::string> modifierExclusiveCategory = {
-                { "IF", ModifierCategories::Energy },
-                { "BE", ModifierCategories::Energy },
-                { "GN", ModifierCategories::Visuals },
-                { "DA", ModifierCategories::Visuals },
-                { "SS", ModifierCategories::Speed },
-                { "FS", ModifierCategories::Speed },
-                { "SF", ModifierCategories::Speed }
-            };
+            static std::unordered_map<std::string, std::string> modifierExclusiveCategory;
 
-            inline static std::unordered_map<std::string, std::function<bool(GlobalNamespace::GameplayModifiers*)>> modifierGetters = {
+            inline const static std::unordered_map<std::string, std::function<bool(GlobalNamespace::GameplayModifiers*)>> modifierGetters = {
                 { "IF", [](GlobalNamespace::GameplayModifiers* x) { return x->instaFail; } },
                 { "BE", [](GlobalNamespace::GameplayModifiers* x) { return x->energyType == GlobalNamespace::GameplayModifiers::EnergyType::Battery; } },
                 { "NB", [](GlobalNamespace::GameplayModifiers* x) { return x->noBombs; } },

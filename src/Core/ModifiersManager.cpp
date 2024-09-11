@@ -49,7 +49,9 @@ namespace ModifiersCoreQuest {
         }
         // if custom
         if (InternalCustomModifiers.contains(id)){
-            return getModConfig().ModifierStates.GetValue().contains(id);
+            auto map = getModConfig().ModifierStates.GetValue();
+            auto it = map.find(id);
+            return it != map.end() && it->second;
         }
         // if base game
         auto playerData = PlayerDataModelPatch::get_PlayerData();
@@ -113,13 +115,12 @@ namespace ModifiersCoreQuest {
     std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> ModifiersManager::Toggles() {
         std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> ret = {};
         for(auto& p : GameplayModifiersPanelPatch::CorePanel->_spawner->get_Panels()) {
-            ret.emplace_back(std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>(p->get_modifierToggle(), p->get_Modifier()));
+            ret.emplace_back(std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>(p->_modifierToggle, p->get_Modifier()));
         }
         return ret;
     }
 
     void ModifiersManager::AddModifierInternal(ModifiersCoreQuest::Modifier modifier){
-        getLogger().warn("Assigning id", modifier.Id);
         ModifiersManager::AllModifiers.insert_or_assign(modifier.Id, modifier);
         //caching categories
         AddToCache(modifier.Id, modifier.Categories, CategorizedModifiers);

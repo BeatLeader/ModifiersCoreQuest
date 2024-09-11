@@ -57,7 +57,7 @@ namespace ModifiersCoreQuest {
             return;
         }
         for(auto modifier : modifiers){
-            if(except.has_value() && modifier == except) {
+            if(except.has_value() && modifier == except.value()) {
                 continue;
             }
             auto& panel = this->_spawner->GetSpawnedPanel(modifier);

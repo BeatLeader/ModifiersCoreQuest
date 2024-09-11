@@ -31,6 +31,7 @@ namespace ModifiersCoreQuest {
             //
             ModifierPanel* panel = new ModifiersCoreQuest::ModifierPanel(toggle->gameObject);
             panel->SetModifier(modifier);
+            panel->_modifierToggle = toggle;
             this->_baseGamePanels.insert_or_assign(id, panel);
             this->_spawnedPanels.insert_or_assign(id, panel);
         }

@@ -40,7 +40,7 @@ namespace ModifiersCoreQuest {
     void CustomModifierVisualsController::RefreshText(CustomModifier modifier){
         auto multiplier = modifier.Multiplier;
         auto positiveMul = multiplier > 0.0;
-        auto multiplierStr = (positiveMul ? "+" : "") + std::to_string(multiplier*100) + "%";
+        auto multiplierStr = (positiveMul ? "+" : "") + std::to_string((int)(multiplier*100)) + "%";
         auto multiplierText = _modifierToggle->_multiplierText;
         //
         multiplierText->gameObject->SetActive(static_cast<int>(multiplier*100) != 0);

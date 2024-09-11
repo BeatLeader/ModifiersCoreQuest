@@ -8,9 +8,11 @@
 
 namespace ModifiersCoreQuest {
     class CustomModifierPanel : public ModifierPanelBase {
-        using ModifierPanelBase::ModifierPanelBase;
 
         public:
+            CustomModifierPanel(UnityW<UnityEngine::GameObject> gameObjectParam) : ModifierPanelBase(gameObjectParam) {
+                this->Awake();
+            }
             Modifier get_Modifier();
             void SetModifier(CustomModifier customModifier);
         protected:
@@ -19,6 +21,5 @@ namespace ModifiersCoreQuest {
         private:
             CustomModifier _modifier;
             SafePtrUnity<ModifiersCoreQuest::CustomModifierVisualsController> _visualsController;
-            SafePtrUnity<GlobalNamespace::GameplayModifierToggle> _modifierToggle;
     };
 }

@@ -1,12 +1,11 @@
 #include "include/UI/Modifier/ModifierPanelBase.hpp"
 #include "custom-types/shared/delegate.hpp"
 #include "UnityEngine/GameObject.hpp"
+#include "logger.hpp"
 #include <functional>
+#include <unistd.h>
 
 namespace ModifiersCoreQuest {
-    SafePtrUnity<GlobalNamespace::GameplayModifierToggle> ModifierPanelBase::get_modifierToggle() {
-        return this->gameObject->GetComponent<GlobalNamespace::GameplayModifierToggle*>();
-    }
 
     void ModifierPanelBase::SetModifierActive(bool active){
         this->_toggle->isOn = active;
