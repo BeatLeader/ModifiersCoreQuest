@@ -17,9 +17,9 @@ namespace ModifiersCoreQuest {
 
     MAKE_AUTO_HOOK_MATCH(GameplayModifiersPanelControllerAwake, &GlobalNamespace::GameplayModifiersPanelController::Awake, void, GlobalNamespace::GameplayModifiersPanelController* self) {
         GameplayModifiersPanelControllerAwake(self);
-        ModifiersCoreQuest::GameplayModifiersPanelPatch::CorePanel = self->gameObject->AddComponent<ModifiersCoreQuest::ModifiersCorePanel*>();
         // Here because we dont have static constructors in c++ :/
         ModifiersCoreQuest::ModifiersManager::LoadBaseGameModifiers();
+        ModifiersCoreQuest::GameplayModifiersPanelPatch::CorePanel = self->gameObject->AddComponent<ModifiersCoreQuest::ModifiersCorePanel*>();
     }
 
     MAKE_AUTO_HOOK_ORIG_MATCH(GameplayModifiersPanelControllerRefreshTotalMultiplierAndRankUIHook, &GlobalNamespace::GameplayModifiersPanelController::RefreshTotalMultiplierAndRankUI, void, GlobalNamespace::GameplayModifiersPanelController* self) {
