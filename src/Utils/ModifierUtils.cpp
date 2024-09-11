@@ -22,7 +22,7 @@ namespace ModifiersCoreQuest {
         return modifierGetters.contains(id);
     }
 
-    bool ModifierUtils::GetGameplayModifierState(SafePtr<GlobalNamespace::GameplayModifiers> modifiers, std::string id){
+    bool ModifierUtils::GetGameplayModifierState(UnityW<GlobalNamespace::GameplayModifiers> modifiers, std::string id){
         auto iter = modifierGetters.find(id);
         if(iter == modifierGetters.end()){
             throw std::invalid_argument("Unknown base game modifier id: " + id);

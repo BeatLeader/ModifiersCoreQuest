@@ -7,6 +7,7 @@
 DEFINE_TYPE(ModifiersCoreQuest, ManualScrollView);
 
 namespace ModifiersCoreQuest {
+    bool ManualScrollView::_suppress = true;
 
     void ManualScrollView::ManualAwake(){
         ManualScrollView::_suppress = false;

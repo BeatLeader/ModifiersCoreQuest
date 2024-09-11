@@ -1,3 +1,5 @@
+#pragma once
+
 #include "functional"
 #include "CustomModifier.hpp"
 #include "Modifier.hpp"

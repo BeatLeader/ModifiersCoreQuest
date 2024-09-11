@@ -1,3 +1,5 @@
+#pragma once
+
 #include <functional>
 #include <string>
 #include <unordered_map>
@@ -17,7 +19,7 @@ namespace ModifiersCoreQuest {
             static bool TryGetBaseModifierIdBySerializedName(std::string name, std::string& id);
             static std::string GetBaseModifierIdBySerializedName(std::string name);
             static bool IsValidBaseGameModifier(std::string id);
-            static bool GetGameplayModifierState(SafePtr<GlobalNamespace::GameplayModifiers> modifiers, std::string id);
+            static bool GetGameplayModifierState(UnityW<GlobalNamespace::GameplayModifiers> modifiers, std::string id);
         private:
             inline static std::unordered_map<std::string, std::string> defaultModifierIds = {
                 { "MODIFIER_ONE_LIFE", "IF" },
@@ -64,22 +66,22 @@ namespace ModifiersCoreQuest {
                 { "SF", ModifierCategories::Speed }
             };
 
-            inline static std::unordered_map<std::string, std::function<bool(SafePtr<GlobalNamespace::GameplayModifiers>)>> modifierGetters = {
-                { "IF", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->instaFail; } },
-                { "BE", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->energyType == GlobalNamespace::GameplayModifiers::EnergyType::Battery; } },
-                { "NB", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->noBombs; } },
-                { "NO", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->enabledObstacleType == GlobalNamespace::GameplayModifiers::EnabledObstacleType::NoObstacles; } },
-                { "NA", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->noArrows; } },
-                { "GN", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->ghostNotes; } },
-                { "DA", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->disappearingArrows; } },
-                { "SC", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->smallCubes; } },
-                { "PM", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->proMode; } },
-                { "SA", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->strictAngles; } },
-                { "SS", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->songSpeed == GlobalNamespace::GameplayModifiers::SongSpeed::Slower; } },
-                { "FS", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->songSpeed == GlobalNamespace::GameplayModifiers::SongSpeed::Faster; } },
-                { "SF", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->songSpeed == GlobalNamespace::GameplayModifiers::SongSpeed::SuperFast; } },
-                { "ZM", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->zenMode; } },
-                { "NF", [](SafePtr<GlobalNamespace::GameplayModifiers> x) { return x->noFailOn0Energy; } },
+            inline static std::unordered_map<std::string, std::function<bool(GlobalNamespace::GameplayModifiers*)>> modifierGetters = {
+                { "IF", [](GlobalNamespace::GameplayModifiers* x) { return x->instaFail; } },
+                { "BE", [](GlobalNamespace::GameplayModifiers* x) { return x->energyType == GlobalNamespace::GameplayModifiers::EnergyType::Battery; } },
+                { "NB", [](GlobalNamespace::GameplayModifiers* x) { return x->noBombs; } },
+                { "NO", [](GlobalNamespace::GameplayModifiers* x) { return x->enabledObstacleType == GlobalNamespace::GameplayModifiers::EnabledObstacleType::NoObstacles; } },
+                { "NA", [](GlobalNamespace::GameplayModifiers* x) { return x->noArrows; } },
+                { "GN", [](GlobalNamespace::GameplayModifiers* x) { return x->ghostNotes; } },
+                { "DA", [](GlobalNamespace::GameplayModifiers* x) { return x->disappearingArrows; } },
+                { "SC", [](GlobalNamespace::GameplayModifiers* x) { return x->smallCubes; } },
+                { "PM", [](GlobalNamespace::GameplayModifiers* x) { return x->proMode; } },
+                { "SA", [](GlobalNamespace::GameplayModifiers* x) { return x->strictAngles; } },
+                { "SS", [](GlobalNamespace::GameplayModifiers* x) { return x->songSpeed == GlobalNamespace::GameplayModifiers::SongSpeed::Slower; } },
+                { "FS", [](GlobalNamespace::GameplayModifiers* x) { return x->songSpeed == GlobalNamespace::GameplayModifiers::SongSpeed::Faster; } },
+                { "SF", [](GlobalNamespace::GameplayModifiers* x) { return x->songSpeed == GlobalNamespace::GameplayModifiers::SongSpeed::SuperFast; } },
+                { "ZM", [](GlobalNamespace::GameplayModifiers* x) { return x->zenMode; } },
+                { "NF", [](GlobalNamespace::GameplayModifiers* x) { return x->noFailOn0Energy; } },
             };
             
             static std::optional<std::string> GetBaseModifierCategory(std::string id);
