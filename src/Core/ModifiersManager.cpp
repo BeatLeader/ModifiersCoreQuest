@@ -1,5 +1,6 @@
 #include "Core/ModifiersManager.hpp"
 
+#include "Core/Modifier.hpp"
 #include "config.hpp"
 #include <ranges>
 #include <stdexcept>
@@ -12,6 +13,8 @@
 #include "UnityEngine/Resources.hpp"
 #include "Patches/PlayerDataModelPatch.hpp"
 #include "GlobalNamespace/PlayerData.hpp"
+#include "GlobalNamespace/GameplayModifierToggle.hpp"
+#include "Patches/GameplayModifiersPanelPatch.hpp"
 #include "logger.hpp"
 
 namespace ModifiersCoreQuest {
@@ -107,7 +110,16 @@ namespace ModifiersCoreQuest {
         }
     }
 
+    std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> ModifiersManager::Toggles() {
+        std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> ret = {};
+        for(auto& p : GameplayModifiersPanelPatch::CorePanel->_spawner->get_Panels()) {
+            ret.emplace_back(std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>(p->get_modifierToggle(), p->get_Modifier()));
+        }
+        return ret;
+    }
+
     void ModifiersManager::AddModifierInternal(ModifiersCoreQuest::Modifier modifier){
+        getLogger().warn("Assigning id", modifier.Id);
         ModifiersManager::AllModifiers.insert_or_assign(modifier.Id, modifier);
         //caching categories
         AddToCache(modifier.Id, modifier.Categories, CategorizedModifiers);

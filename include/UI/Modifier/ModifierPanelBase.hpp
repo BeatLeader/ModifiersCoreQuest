@@ -4,6 +4,7 @@
 #include "custom-types/shared/macros.hpp"
 #include "UnityEngine/UI/Toggle.hpp"
 #include "UnityEngine/GameObject.hpp"
+#include "GlobalNamespace/GameplayModifierToggle.hpp"
 #include <functional>
 #include <optional>
 
@@ -19,6 +20,7 @@ namespace ModifiersCoreQuest {
             virtual Modifier get_Modifier() = 0;
             std::optional<std::function<void(ModifiersCoreQuest::ModifierPanelBase&, bool)>> ModifierStateChangedEvent;
             SafePtrUnity<UnityEngine::GameObject> gameObject;
+            SafePtrUnity<GlobalNamespace::GameplayModifierToggle> get_modifierToggle();
             void SetModifierActive(bool active);
         protected:
             virtual void Awake();

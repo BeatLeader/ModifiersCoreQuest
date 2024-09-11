@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Core/CustomModifier.hpp"
 #include "Core/Modifier.hpp"
 #include "UI/Modifier/ModifierPanelBase.hpp"
@@ -16,7 +18,7 @@ DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifiersCorePanel, UnityEngine::MonoB
     DECLARE_DEFAULT_CTOR();
     DECLARE_SIMPLE_DTOR(); 
     DECLARE_INSTANCE_FIELD_PRIVATE(ModifiersCoreQuest::ModifiersCoreUIPatcher*, _patcher);
-    DECLARE_INSTANCE_FIELD_PRIVATE(ModifiersCoreQuest::ModifierPanelSpawner*, _spawner);
+    DECLARE_INSTANCE_FIELD(ModifiersCoreQuest::ModifierPanelSpawner*, _spawner);
     DECLARE_INSTANCE_FIELD_PRIVATE(UnityEngine::UI::GridLayoutGroup*, _modifiersSectionGroup);
 
     DECLARE_INSTANCE_METHOD(void, Awake);

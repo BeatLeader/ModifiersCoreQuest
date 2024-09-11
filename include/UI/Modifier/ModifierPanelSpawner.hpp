@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Core/CustomModifier.hpp"
 #include "ModifierPanelBase.hpp"
 #include "custom-types/shared/macros.hpp"

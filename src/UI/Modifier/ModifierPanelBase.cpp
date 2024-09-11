@@ -4,6 +4,10 @@
 #include <functional>
 
 namespace ModifiersCoreQuest {
+    SafePtrUnity<GlobalNamespace::GameplayModifierToggle> ModifierPanelBase::get_modifierToggle() {
+        return this->gameObject->GetComponent<GlobalNamespace::GameplayModifierToggle*>();
+    }
+
     void ModifierPanelBase::SetModifierActive(bool active){
         this->_toggle->isOn = active;
     }

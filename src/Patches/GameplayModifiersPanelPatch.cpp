@@ -13,10 +13,11 @@
 #include <vector>
 
 namespace ModifiersCoreQuest {
+    SafePtrUnity<ModifiersCorePanel> GameplayModifiersPanelPatch::CorePanel;
 
     MAKE_AUTO_HOOK_MATCH(GameplayModifiersPanelControllerAwake, &GlobalNamespace::GameplayModifiersPanelController::Awake, void, GlobalNamespace::GameplayModifiersPanelController* self) {
         GameplayModifiersPanelControllerAwake(self);
-        self->gameObject->AddComponent<ModifiersCoreQuest::ModifiersCorePanel*>();
+        ModifiersCoreQuest::GameplayModifiersPanelPatch::CorePanel = self->gameObject->AddComponent<ModifiersCoreQuest::ModifiersCorePanel*>();
         // Here because we dont have static constructors in c++ :/
         ModifiersCoreQuest::ModifiersManager::LoadBaseGameModifiers();
     }

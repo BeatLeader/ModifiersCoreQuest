@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "GlobalNamespace/GameplayModifierParamsSO.hpp"
+#include "GlobalNamespace/GameplayModifierToggle.hpp"
 
 namespace ModifiersCoreQuest {
 
@@ -42,6 +43,7 @@ namespace ModifiersCoreQuest {
             static void SetModifierState(std::string id, bool state);
             static void AddModifier(CustomModifier modifier);
             static void RemoveModifier(std::string id);
+            static std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> Toggles();
 
             // Internal function, not private so its reachable in late_load
             static void LoadBaseGameModifiers();

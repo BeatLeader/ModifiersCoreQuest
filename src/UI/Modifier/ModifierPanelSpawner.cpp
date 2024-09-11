@@ -7,6 +7,7 @@
 #include "Core/ModifiersManager.hpp"
 #include "UI/Modifier/ModifierPanel.hpp"
 #include "UnityEngine/GameObject.hpp"
+#include "logger.hpp"
 
 DEFINE_TYPE(ModifiersCoreQuest, ModifierPanelSpawner);
 
@@ -26,7 +27,7 @@ namespace ModifiersCoreQuest {
         for(auto toggle : toggles){
             auto key = toggle->gameplayModifier->modifierNameLocalizationKey;
             auto id = ModifiersCoreQuest::ModifierUtils::GetBaseModifierIdBySerializedName(key);
-            auto modifier = ModifiersManager::AllModifiers[id];
+            auto modifier = ModifiersManager::AllModifiers.at(id);
             //
             ModifierPanel* panel = new ModifiersCoreQuest::ModifierPanel(toggle->gameObject);
             panel->SetModifier(modifier);
@@ -36,7 +37,7 @@ namespace ModifiersCoreQuest {
     }
 
     ModifiersCoreQuest::ModifierPanelBase& ModifierPanelSpawner::GetSpawnedPanel(std::string id) {
-        return *this->_spawnedPanels[id];
+        return *this->_spawnedPanels.at(id);
     }
 
     ModifiersCoreQuest::ModifierPanelBase* ModifierPanelSpawner::SpawnPanel(CustomModifier modifier) {
@@ -60,7 +61,7 @@ namespace ModifiersCoreQuest {
             return;
         }
 
-        auto* panel = dynamic_cast<ModifiersCoreQuest::CustomModifierPanel*>(this->_spawnedPanels[id]);
+        auto* panel = dynamic_cast<ModifiersCoreQuest::CustomModifierPanel*>(this->_spawnedPanels.at(id));
         panel->gameObject->SetActive(true);
         this->_spawnedPanels.erase(id);
         this->_pooledPanels.push(panel);
