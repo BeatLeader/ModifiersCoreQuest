@@ -19,7 +19,7 @@
 
 namespace ModifiersCoreQuest {
 
-    std::unordered_map<std::string, ModifiersCoreQuest::CustomModifier> ModifiersManager::InternalCustomModifiers = {};
+    std::map<std::string, ModifiersCoreQuest::CustomModifier> ModifiersManager::InternalCustomModifiers = {};
     std::unordered_map<std::string, ModifiersCoreQuest::CustomModifier> ModifiersManager::InternalPendingModifiers = {};
     std::unordered_map<std::string, ModifiersCoreQuest::Modifier> ModifiersManager::AllModifiers = {};
 

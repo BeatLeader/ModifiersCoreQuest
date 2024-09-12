@@ -7,6 +7,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <map>
 #include <vector>
 
 #include "GlobalNamespace/GameplayModifierParamsSO.hpp"
@@ -48,7 +49,7 @@ namespace ModifiersCoreQuest {
             // Internal function, not private so its reachable in late_load
             static void LoadBaseGameModifiers();
         private:
-            static std::unordered_map<std::string, ModifiersCoreQuest::CustomModifier> InternalCustomModifiers;
+            static std::map<std::string, ModifiersCoreQuest::CustomModifier> InternalCustomModifiers;
             static std::unordered_map<std::string, ModifiersCoreQuest::CustomModifier> InternalPendingModifiers;
             static std::unordered_map<std::string, ModifiersCoreQuest::Modifier> AllModifiers;
 
