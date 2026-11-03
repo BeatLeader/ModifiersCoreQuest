@@ -45,6 +45,8 @@ namespace ModifiersCoreQuest {
             static void AddModifier(CustomModifier modifier);
             static void RemoveModifier(std::string id);
             static std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> Toggles();
+            static void SetMutuallyExclusiveModifiers(std::string id, std::optional<std::vector<std::string>> ids);
+            static std::vector<std::string> GetMutuallyExclusiveModifiers(Modifier const& modifier);
 
             // Internal function, not private so its reachable in late_load
             static void LoadBaseGameModifiers();
@@ -57,6 +59,7 @@ namespace ModifiersCoreQuest {
             static std::unordered_map<std::string, std::unordered_set<std::string>> ExclusiveModifiers;
             static std::unordered_map<std::string, std::unordered_set<std::string>> ExclusiveCategories;
             static std::unordered_map<std::string, std::unordered_set<std::string>> CategorizedModifiers;
+            static std::unordered_map<std::string, std::vector<std::string>> ExclusiveModifierOverrides;
 
             static std::vector<std::string> buffer;
 
@@ -65,7 +68,7 @@ namespace ModifiersCoreQuest {
             static void AddCustomModifierInternal(CustomModifier modifier, bool checkDependencies);
             static void AddModifierInternal(ModifiersCoreQuest::Modifier modifier);
             // Cache
-            static void RemoveFromCache(std::string id, std::unordered_map<std::string, std::unordered_set<std::string>> dict);
+            static void RemoveFromCache(std::string id, std::unordered_map<std::string, std::unordered_set<std::string>>& dict);
             static void AddToCache(std::string id, std::optional<std::vector<std::string>> collection, std::unordered_map<std::string, std::unordered_set<std::string>>& dict, bool addSelf = false);
             static bool EnsureDependenciesExist(ModifiersCoreQuest::Modifier modifier);
 

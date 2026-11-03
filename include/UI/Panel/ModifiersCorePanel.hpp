@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifiersCorePanel, UnityEngine::MonoBehaviour,
+DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifiersCorePanel, UnityEngine::MonoBehaviour) {
     DECLARE_DEFAULT_CTOR();
     DECLARE_SIMPLE_DTOR(); 
     DECLARE_INSTANCE_FIELD_PRIVATE(ModifiersCoreQuest::ModifiersCoreUIPatcher*, _patcher);
@@ -28,8 +28,14 @@ DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifiersCorePanel, UnityEngine::MonoB
     public:
         void SetModifierActive(Modifier modifier, bool state);
     private:
+        static constexpr int VanillaTab = 0;
+        static constexpr int CustomTab = 1;
+
         UnityW<GlobalNamespace::GameplayModifiersPanelController> get_Panel();
         void RefreshModifiersOrder();
+        void RefreshTabs();
+        void ShowTab(int tab);
+        void HandleTabSelected(int tab);
         void SetModifiersActive(auto modifiers, bool state, std::optional<std::string> except = {});
         void SetCategoriesActive(std::optional<std::vector<std::string>> categories, std::unordered_map<std::string, std::unordered_set<std::string>> cache, bool state, std::optional<std::string> except = {});
         void HandleModifierSpawnedInternal(ModifiersCoreQuest::ModifierPanelBase& panel);
@@ -38,4 +44,4 @@ DECLARE_CLASS_CODEGEN(ModifiersCoreQuest, ModifiersCorePanel, UnityEngine::MonoB
         void HandleModifierRemoved(CustomModifier modifier);
         void HandleModifierStateChanged(ModifiersCoreQuest::ModifierPanelBase& panel, bool state);
 
-)
+};

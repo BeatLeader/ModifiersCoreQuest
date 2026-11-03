@@ -41,6 +41,11 @@ namespace ModifiersCoreQuest {
         return *this->_spawnedPanels.at(id);
     }
 
+    ModifiersCoreQuest::ModifierPanelBase* ModifierPanelSpawner::TryGetSpawnedPanel(std::string id) {
+        auto it = this->_spawnedPanels.find(id);
+        return it != this->_spawnedPanels.end() ? it->second : nullptr;
+    }
+
     ModifiersCoreQuest::ModifierPanelBase* ModifierPanelSpawner::SpawnPanel(CustomModifier modifier) {
         ModifiersCoreQuest::CustomModifierPanel* panel;
         if (!_pooledPanels.empty()) {
@@ -49,7 +54,7 @@ namespace ModifiersCoreQuest {
             panel->gameObject->SetActive(true);
         }
         else {
-            auto go = UnityEngine::Object::Instantiate(this->_modifierPrefab, this->get_ModifiersSection(), false);
+            auto go = UnityEngine::Object::Instantiate(this->_modifierPrefab, this->_patcher->CustomModifiersSection, false);
             panel = new ModifiersCoreQuest::CustomModifierPanel(go);
         }
         panel->SetModifier(modifier);
@@ -63,7 +68,7 @@ namespace ModifiersCoreQuest {
         }
 
         auto* panel = dynamic_cast<ModifiersCoreQuest::CustomModifierPanel*>(this->_spawnedPanels.at(id));
-        panel->gameObject->SetActive(true);
+        panel->gameObject->SetActive(false);
         this->_spawnedPanels.erase(id);
         this->_pooledPanels.push(panel);
     }

@@ -2,6 +2,7 @@
 
 #include "Core/Modifier.hpp"
 #include "config.hpp"
+#include <algorithm>
 #include <ranges>
 #include <stdexcept>
 #include <string>
@@ -27,6 +28,7 @@ namespace ModifiersCoreQuest {
     std::unordered_map<std::string, std::unordered_set<std::string>> ModifiersManager::ExclusiveModifiers = {};
     std::unordered_map<std::string, std::unordered_set<std::string>> ModifiersManager::ExclusiveCategories = {};
     std::unordered_map<std::string, std::unordered_set<std::string>> ModifiersManager::CategorizedModifiers = {};
+    std::unordered_map<std::string, std::vector<std::string>> ModifiersManager::ExclusiveModifierOverrides = {};
 
     std::vector<std::string> ModifiersManager::buffer = {};
 
@@ -88,6 +90,7 @@ namespace ModifiersCoreQuest {
         //removing from dependencies cache
         RemoveFromCache(modifier.Id, DependentModifiers);
         RemoveFromCache(modifier.Id, ExclusiveModifiers);
+        ExclusiveModifierOverrides.erase(modifier.Id);
         //
         if(ModifierRemovedEvent.has_value()){
             ModifierRemovedEvent.value()(modifier);
@@ -98,8 +101,8 @@ namespace ModifiersCoreQuest {
         if (HasModifierWithId(modifier.Id)){
             throw std::invalid_argument("A modifier with the same key is already added");
         }
-        if (modifier.Id.length() < 2 || modifier.Id.length() > 3) {
-            throw std::invalid_argument("A modifier key should be 2 or 3 characters long (example: NF)");
+        if (modifier.Id.length() < 2 || modifier.Id.length() > 4) {
+            throw std::invalid_argument("A modifier key should be 2 to 4 characters long (example: NF)");
         }
         if (checkDependencies && !EnsureDependenciesExist(modifier)) {
             ModifiersManager::InternalPendingModifiers.insert_or_assign(modifier.Id, modifier);
@@ -114,10 +117,49 @@ namespace ModifiersCoreQuest {
 
     std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> ModifiersManager::Toggles() {
         std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> ret = {};
+        if (!GameplayModifiersPanelPatch::CorePanel) {
+            return ret;
+        }
         for(auto& p : GameplayModifiersPanelPatch::CorePanel->_spawner->get_Panels()) {
             ret.emplace_back(std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>(p->_modifierToggle, p->get_Modifier()));
         }
         return ret;
+    }
+
+    std::vector<std::string> ModifiersManager::GetMutuallyExclusiveModifiers(Modifier const& modifier) {
+        auto it = ExclusiveModifierOverrides.find(modifier.Id);
+        if (it != ExclusiveModifierOverrides.end()) {
+            return it->second;
+        }
+        return modifier.MutuallyExclusiveModifiers.value_or(std::vector<std::string>());
+    }
+
+    static bool ListsAsMutuallyExclusive(std::string const& id, std::string const& otherId) {
+        auto modifier = ModifiersManager::GetModifierWithId(id);
+        if (!modifier.has_value()) {
+            return false;
+        }
+        auto exclusives = ModifiersManager::GetMutuallyExclusiveModifiers(*modifier);
+        return std::find(exclusives.begin(), exclusives.end(), otherId) != exclusives.end();
+    }
+
+    void ModifiersManager::SetMutuallyExclusiveModifiers(std::string id, std::optional<std::vector<std::string>> ids) {
+        auto modifier = GetModifierWithId(id);
+        if (!modifier.has_value()) {
+            throw std::invalid_argument("A modifier with such identifier "+id+" does not exist");
+        }
+        for (auto const& other : GetMutuallyExclusiveModifiers(*modifier)) {
+            if (!ListsAsMutuallyExclusive(other, id)) {
+                ExclusiveModifiers[id].erase(other);
+                ExclusiveModifiers[other].erase(id);
+            }
+        }
+        if (ids.has_value()) {
+            ExclusiveModifierOverrides.insert_or_assign(id, ids.value());
+        } else {
+            ExclusiveModifierOverrides.erase(id);
+        }
+        AddToCache(id, GetMutuallyExclusiveModifiers(*modifier), ExclusiveModifiers, true);
     }
 
     void ModifiersManager::AddModifierInternal(ModifiersCoreQuest::Modifier modifier){
@@ -145,8 +187,8 @@ namespace ModifiersCoreQuest {
     }
 
     // Cache
-    void ModifiersManager::RemoveFromCache(std::string id, std::unordered_map<std::string, std::unordered_set<std::string>> dict) {
-        for(auto [_, set] : dict){
+    void ModifiersManager::RemoveFromCache(std::string id, std::unordered_map<std::string, std::unordered_set<std::string>>& dict) {
+        for(auto& [_, set] : dict){
             set.erase(id);
         }
     }
@@ -171,7 +213,7 @@ namespace ModifiersCoreQuest {
         if(!modifier.RequiresModifiers.has_value()){
             return true;
         }
-        for(auto require : modifier.RequiredByModifiers.value()){
+        for(auto require : modifier.RequiresModifiers.value()){
             if(!AllModifiers.contains(require)){
                 return false;
             }

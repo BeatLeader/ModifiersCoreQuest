@@ -34,8 +34,11 @@ namespace ModifiersCoreQuest {
 
     bool ModifierUtils::TryGetBaseModifierIdBySerializedName(std::string name, std::string& id){
         auto iter = defaultModifierIds.find(name);
-        id = iter == defaultModifierIds.end() ? NULL : iter->second;
-        return iter != defaultModifierIds.end();
+        if (iter == defaultModifierIds.end()) {
+            return false;
+        }
+        id = iter->second;
+        return true;
     }
 
     std::string ModifierUtils::GetBaseModifierIdBySerializedName(std::string name){

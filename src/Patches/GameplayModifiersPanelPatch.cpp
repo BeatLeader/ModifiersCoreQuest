@@ -44,7 +44,7 @@ namespace ModifiersCoreQuest {
             if (it != ModifiersManager::GameplayModifierParams.end()) {
                 auto paramsSO = it->second;
                 //acquiring getter
-                GlobalNamespace::__GameplayModifiersModelSO__GameplayModifierBoolGetter* getter = NULL;
+                GlobalNamespace::GameplayModifiersModelSO_GameplayModifierBoolGetter* getter = NULL;
                 panel->_gameplayModifiersModel->_gameplayModifierGetters->TryGetValue(paramsSO, getter);
                 //adding if enabled
                 if(getter && getter->Invoke(panel->_gameplayModifiers)) {
