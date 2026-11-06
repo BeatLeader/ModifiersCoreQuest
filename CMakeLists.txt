@@ -15,8 +15,8 @@ cmake_minimum_required(VERSION 3.21)
 project(${COMPILE_ID})
 
 # c++ standard
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED 20)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # define that stores the actual source directory
@@ -38,17 +38,12 @@ add_compile_definitions(USE_CODEGEN_FIELDS)
 RECURSE_FILES(cpp_file_list ${SOURCE_DIR}/*.cpp)
 RECURSE_FILES(c_file_list ${SOURCE_DIR}/*.c)
 
-RECURSE_FILES(src_inline_hook_beatsaber_hook_local_extra_c ${EXTERN_DIR}/includes/beatsaber-hook/shared/inline-hook/*.c)
-RECURSE_FILES(src_inline_hook_beatsaber_hook_local_extra_cpp ${EXTERN_DIR}/includes/beatsaber-hook/shared/inline-hook/*.cpp)
-
 # add all src files to compile
 add_library(
         ${COMPILE_ID}
         SHARED
         ${cpp_file_list}
         ${c_file_list}
-        ${src_inline_hook_beatsaber_hook_local_extra_c}
-        ${src_inline_hook_beatsaber_hook_local_extra_cpp}
 )
 
 target_include_directories(${COMPILE_ID} PRIVATE .)
@@ -63,6 +58,7 @@ target_include_directories(${COMPILE_ID} PUBLIC ${SHARED_DIR})
 target_include_directories(${COMPILE_ID} PRIVATE ${EXTERN_DIR}/includes/${CODEGEN_ID}/include)
 
 target_link_libraries(${COMPILE_ID} PRIVATE -llog)
+target_link_options(${COMPILE_ID} PRIVATE -Wl,-z,nodelete)
 # add extern stuff like libs and other includes
 include(extern.cmake)
 

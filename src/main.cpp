@@ -19,7 +19,7 @@ extern "C" __attribute__((visibility("default"))) void setup(CModInfo* info)
 extern "C" __attribute__((visibility("default"))) void late_load()
 {
     // Init things
-    il2cpp_functions::Init();
+    i2c::functions::initialize();
     custom_types::Register::AutoRegister();
     ModifiersCoreQuest::Hooking::InstallHooks();
 }

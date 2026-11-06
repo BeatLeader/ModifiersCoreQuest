@@ -115,13 +115,13 @@ namespace ModifiersCoreQuest {
         }
     }
 
-    std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> ModifiersManager::Toggles() {
-        std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> ret = {};
+    std::vector<std::tuple<safe_ptr<GlobalNamespace::GameplayModifierToggle*>, Modifier>> ModifiersManager::Toggles() {
+        std::vector<std::tuple<safe_ptr<GlobalNamespace::GameplayModifierToggle*>, Modifier>> ret = {};
         if (!GameplayModifiersPanelPatch::CorePanel) {
             return ret;
         }
         for(auto& p : GameplayModifiersPanelPatch::CorePanel->_spawner->get_Panels()) {
-            ret.emplace_back(std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>(p->_modifierToggle, p->get_Modifier()));
+            ret.emplace_back(std::tuple<safe_ptr<GlobalNamespace::GameplayModifierToggle*>, Modifier>(p->_modifierToggle, p->get_Modifier()));
         }
         return ret;
     }

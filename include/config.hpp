@@ -5,6 +5,6 @@
 #include <unordered_map>
 
 DECLARE_CONFIG(ModConfig) {
-    CONFIG_VALUE(ModifierStates, StringKeyedMap<bool>, "ModifierStates", StringKeyedMap<bool>());
+    CONFIG_VALUE(ModifierStates, ConfigUtils::Map<bool>, "ModifierStates", ConfigUtils::Map<bool>());
     CONFIG_VALUE(SelectedTab, int, "SelectedTab", 0);
 };

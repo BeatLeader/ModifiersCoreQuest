@@ -1,5 +1,7 @@
 #pragma once
 
+#include "beatsaber-hook/shared/safeptr.hpp"
+
 #include "Core/Modifier.hpp"
 #include "custom-types/shared/macros.hpp"
 #include "UnityEngine/UI/Toggle.hpp"
@@ -15,8 +17,8 @@ namespace ModifiersCoreQuest {
         public:
             virtual Modifier get_Modifier() = 0;
             std::optional<std::function<void(ModifiersCoreQuest::ModifierPanelBase&, bool)>> ModifierStateChangedEvent;
-            SafePtrUnity<UnityEngine::GameObject> gameObject;
-            SafePtrUnity<GlobalNamespace::GameplayModifierToggle> _modifierToggle;
+            safe_ptr<UnityEngine::GameObject*> gameObject;
+            safe_ptr<GlobalNamespace::GameplayModifierToggle*> _modifierToggle;
             void SetModifierActive(bool active);
         protected:
             ModifierPanelBase(UnityW<UnityEngine::GameObject> gameObjectParam) {
@@ -25,6 +27,6 @@ namespace ModifiersCoreQuest {
             virtual void Awake();
             virtual void HandleToggleStateChanged(bool state);
         private:
-            SafePtrUnity<UnityEngine::UI::Toggle> _toggle;
+            safe_ptr<UnityEngine::UI::Toggle*> _toggle;
     };
 }

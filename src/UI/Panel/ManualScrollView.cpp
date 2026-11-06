@@ -16,7 +16,7 @@ namespace ModifiersCoreQuest {
     }
 
     MAKE_AUTO_HOOK_ORIG_MATCH(ScrollViewAwake, &HMUI::ScrollView::Awake, void, HMUI::ScrollView* self){
-        if(!il2cpp_utils::try_cast<ModifiersCoreQuest::ManualScrollView>(self) || !ManualScrollView::_suppress){
+        if(!i2c::try_cast<ModifiersCoreQuest::ManualScrollView*>(self) || !ManualScrollView::_suppress){
             ScrollViewAwake(self);
         }
     }

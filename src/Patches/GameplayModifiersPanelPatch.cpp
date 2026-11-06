@@ -13,7 +13,7 @@
 #include <vector>
 
 namespace ModifiersCoreQuest {
-    SafePtrUnity<ModifiersCorePanel> GameplayModifiersPanelPatch::CorePanel;
+    safe_ptr<ModifiersCorePanel*> GameplayModifiersPanelPatch::CorePanel;
 
     MAKE_AUTO_HOOK_MATCH(GameplayModifiersPanelControllerAwake, &GlobalNamespace::GameplayModifiersPanelController::Awake, void, GlobalNamespace::GameplayModifiersPanelController* self) {
         GameplayModifiersPanelControllerAwake(self);

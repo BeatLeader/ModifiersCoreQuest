@@ -1,5 +1,7 @@
 #pragma once
 
+#include "beatsaber-hook/shared/safeptr.hpp"
+
 #include "Core/CustomModifier.hpp"
 #include "Core/Modifier.hpp"
 #include "ModifierPanelBase.hpp"
@@ -20,6 +22,6 @@ namespace ModifiersCoreQuest {
             void Awake();
         private:
             CustomModifier _modifier;
-            SafePtrUnity<ModifiersCoreQuest::CustomModifierVisualsController> _visualsController;
+            safe_ptr<ModifiersCoreQuest::CustomModifierVisualsController*> _visualsController;
     };
 }

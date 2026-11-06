@@ -40,10 +40,11 @@ namespace ModifiersCoreQuest {
     }
 
     void ModifiersCoreUIPatcher::PatchUI() {
-        auto context = UnityEngine::Object::FindObjectsOfType<Zenject::Context*>()->Last();
+        auto contexts = UnityEngine::Object::FindObjectsOfType<Zenject::Context*>();
+        auto context = contexts[contexts.size() - 1];
         auto container = context->Container;
-        auto parent = this->GetComponentInParent(csTypeOf(GlobalNamespace::GameplaySetupViewController*), true);
-        auto setupViewController = parent ? reinterpret_cast<GlobalNamespace::GameplaySetupViewController*>(parent.unsafePtr()) : nullptr;
+        auto parent = this->GetComponentInParent(i2c::cs_type_of<GlobalNamespace::GameplaySetupViewController*>(), true);
+        auto setupViewController = parent ? reinterpret_cast<GlobalNamespace::GameplaySetupViewController*>(parent.unsafe_ptr()) : nullptr;
         if (!setupViewController || !setupViewController->_selectionSegmentedControl) {
             getLogger().warn("No gameplay setup view around the modifiers panel, custom modifiers go without a tab");
             this->CustomModifiersSection = this->ModifiersSection;
@@ -130,10 +131,15 @@ namespace ModifiersCoreQuest {
     }
 
     void ModifiersCoreUIPatcher::AddScrollbar(GlobalNamespace::GameplaySetupViewController* setupViewController) {
-        auto isScrollbar = [](auto x) { return x->name == StringW("ScrollBar"); };
-        auto scrollbarPrefab = setupViewController->GetComponentsInChildren<UnityEngine::RectTransform*>(true)->FirstOrDefault(isScrollbar);
+        auto findScrollbar = [](ArrayW<UnityEngine::RectTransform*> rects) -> UnityEngine::RectTransform* {
+            for (auto rect : rects) {
+                if (rect->name == StringW("ScrollBar")) return rect;
+            }
+            return nullptr;
+        };
+        auto scrollbarPrefab = findScrollbar(setupViewController->GetComponentsInChildren<UnityEngine::RectTransform*>(true));
         if (!scrollbarPrefab) {
-            scrollbarPrefab = UnityEngine::Object::FindObjectsOfType<UnityEngine::RectTransform*>()->First(isScrollbar);
+            scrollbarPrefab = findScrollbar(UnityEngine::Object::FindObjectsOfType<UnityEngine::RectTransform*>());
         }
         this->_scrollbarRect = UnityEngine::Object::Instantiate(scrollbarPrefab, this->CustomModifiersContainer, false);
         this->_scrollbarRect->gameObject->SetActive(true);

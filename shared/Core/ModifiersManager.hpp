@@ -1,5 +1,7 @@
 #pragma once
 
+#include "beatsaber-hook/shared/safeptr.hpp"
+
 #include "functional"
 #include "CustomModifier.hpp"
 #include "Modifier.hpp"
@@ -44,7 +46,7 @@ namespace ModifiersCoreQuest {
             static void SetModifierState(std::string id, bool state);
             static void AddModifier(CustomModifier modifier);
             static void RemoveModifier(std::string id);
-            static std::vector<std::tuple<SafePtrUnity<GlobalNamespace::GameplayModifierToggle>, Modifier>> Toggles();
+            static std::vector<std::tuple<safe_ptr<GlobalNamespace::GameplayModifierToggle*>, Modifier>> Toggles();
             static void SetMutuallyExclusiveModifiers(std::string id, std::optional<std::vector<std::string>> ids);
             static std::vector<std::string> GetMutuallyExclusiveModifiers(Modifier const& modifier);
 
